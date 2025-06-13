@@ -6,7 +6,7 @@ public class Main{
         User user = new User ("Christine");
     
 
-    Product p1 = new Product ("P001", "Biscuit", 6.90);
+    Product p1 = new Product ("P001", "Cake", 6.90);
     Product p2 = new Product ("P002", "Facewash", 13.80);
     Product p3 = new Product ("P003", "Notebook", 2.50);
 
