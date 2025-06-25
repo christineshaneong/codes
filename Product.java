@@ -35,7 +35,7 @@ public abstract class Product {
     public abstract void displayProduct();
 }
 
-// Subclass of Product for general use
+// Subclass of Product for general use - inheritance
 class StandardProduct extends Product {
     public StandardProduct(String id, String name, double price) {
         super(id, name, price);

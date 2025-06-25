@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Admin {
-    private ArrayList<Product> productList;
+    private ArrayList<Product> productList; //encapsulation
 
     public Admin() {
         productList = new ArrayList<>();
