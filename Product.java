@@ -3,6 +3,7 @@ public abstract class Product {
     private String name;
     private double price;
     private String id;
+    private int soldCount = 0;
 
     public Product(String id, String name, double price) {
         this.id = id;
@@ -20,6 +21,14 @@ public abstract class Product {
 
     public double getPrice() {
         return price;
+    }
+
+    public int getSoldCount() {
+        return soldCount;
+    }
+
+    public void incrementSoldCount() {
+        soldCount++;
     }
 
     // Abstract method forces subclasses to implement their own display

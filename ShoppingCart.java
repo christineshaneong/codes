@@ -7,10 +7,10 @@ public class ShoppingCart {
         items = new ArrayList<>();
     }
 
-    public void addProduct(Product product) {
+    /*public void addProduct(Product product) {
         items.add(product);
         System.out.println(product.getName() + " added to cart.");
-    }
+    }*/
 
     public void removeProduct(String id) {
         boolean found = false;
@@ -46,4 +46,11 @@ public class ShoppingCart {
         }
         return total;
     }
+
+    public void addProduct(Product product) {
+    items.add(product);
+    product.incrementSoldCount();
+    System.out.println(product.getName() + " added to cart.");
+}
+
 }

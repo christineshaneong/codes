@@ -4,21 +4,34 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        User user = new User("Christine");
+        Admin admin = new Admin();
 
-        Product p1 = new StandardProduct("P001", "Cake", 6.90);
-        Product p2 = new StandardProduct("P002", "Facewash", 13.80);
-        Product p3 = new StandardProduct("P003", "Notebook", 2.50);
+        admin.addProduct("P001", "Cake", 6.90);
+        admin.addProduct("P002", "Facewash", 13.80);
+        admin.addProduct("P003", "Notebook", 2.50);
 
+        System.out.println("Welcome to Online Shopping System!");
+        System.out.print("Are you 'admin' or 'customer'? : ");
+        String role = sc.nextLine();
+
+        if (role.equalsIgnoreCase("admin")) {
+            adminMenu(sc, admin);
+        } else if (role.equalsIgnoreCase("customer")) {
+            customerMenu(sc, admin);
+        } else {
+            System.out.println("Invalid role.");
+        }
+
+        sc.close();
+    }
+
+    public static void adminMenu(Scanner sc, Admin admin) {
         boolean running = true;
         while (running) {
-            System.out.println("\n=== ONLINE SHOPPING CART ===");
-            System.out.println("1. View Products");
-            System.out.println("2. Add Product to Cart");
-            System.out.println("3. Remove Product from Cart");
-            System.out.println("4. View Cart");
-            System.out.println("5. Checkout");
-            System.out.println("0. Exit");
+            System.out.println("\n=== ADMIN MENU ===");
+            System.out.println("1. Add Product");
+            System.out.println("2. View Products & Sales");
+            System.out.println("0. Logout");
             System.out.print("Choose: ");
 
             int choice = -1;
@@ -33,18 +46,71 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    p1.displayProduct();
-                    p2.displayProduct();
-                    p3.displayProduct();
+                    System.out.print("Enter Product ID: ");
+                    String id = sc.nextLine();
+                    System.out.print("Enter Product Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Enter Price: ");
+                    double price = sc.nextDouble();
+                    sc.nextLine();
+                    admin.addProduct(id, name, price);
+                    break;
+
+                case 2:
+                    admin.viewProductsWithSales();
+                    break;
+
+                case 0:
+                    running = false;
+                    System.out.println("Logged out.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
+
+    public static void customerMenu(Scanner sc, Admin admin) {
+        System.out.print("Enter your name: ");
+        String username = sc.nextLine();
+        User user = new User(username);
+
+        boolean running = true;
+        while (running) {
+            System.out.println("\n=== CUSTOMER MENU ===");
+            System.out.println("1. View Products");
+            System.out.println("2. Add Product to Cart");
+            System.out.println("3. Remove Product from Cart");
+            System.out.println("4. View Cart");
+            System.out.println("5. Checkout");
+            System.out.println("0. Logout");
+            System.out.print("Choose: ");
+
+            int choice = -1;
+            try {
+                choice = sc.nextInt();
+                sc.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                sc.nextLine();
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    admin.viewProducts();
                     break;
 
                 case 2:
                     System.out.print("Enter product ID to add: ");
                     String addId = sc.nextLine();
-                    if (addId.equals("P001")) user.getCart().addProduct(p1);
-                    else if (addId.equals("P002")) user.getCart().addProduct(p2);
-                    else if (addId.equals("P003")) user.getCart().addProduct(p3);
-                    else System.out.println("Invalid ID.");
+                    Product addProduct = admin.findProductById(addId);
+                    if (addProduct != null) {
+                        user.getCart().addProduct(addProduct);
+                    } else {
+                        System.out.println("Invalid Product ID.");
+                    }
                     break;
 
                 case 3:
@@ -65,12 +131,12 @@ public class Main {
 
                 case 0:
                     running = false;
+                    System.out.println("Logged out.");
                     break;
 
                 default:
                     System.out.println("Invalid choice.");
             }
         }
-        sc.close();
     }
 }
